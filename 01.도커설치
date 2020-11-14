@@ -1,5 +1,3 @@
-#!/bin/bash
-
 # os 비트 확인
 getconf LONG_BIT
 
