@@ -64,4 +64,4 @@ sudo docker run -t -i -p 3306:3306 -p 192.168.0.100:7777:80 --name centos7 cento
 # 우분투 컨테이너에 아파치 웹서버 설치 및 기동
 apt-get update
 apt-get install apache2 -y
- service apache2 start
+service apache2 start
