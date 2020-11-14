@@ -16,4 +16,22 @@ sudo yum remove docker \
 	     docker-logrotate \
 	     docker-engine
 
+# yum util 설치
+sudo yum install -y yum-utils
 
+# docker 저장소 등록
+sudo yum-config-manager \
+    --add-repo \
+    https://download.docker.com/linux/centos/docker-ce.repo
+
+# docker 설치
+sudo yum install docker-ce docker-ce-cli containerd.io
+
+# docker 시작
+sudo systemctl start docker
+sudo systemctl enable docker
+
+
+# docker 설치 확인
+sudo docker info
+ 
