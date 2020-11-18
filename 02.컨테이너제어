@@ -14,7 +14,10 @@ sudo docker images
 
 # 내려 받은 이미지에서 컨테이너 생성 : --name 컨테이너 이름
 # -i 상호입출력 -t tty 활성화 배시셸을 사용
-sudo docker create -t -t --name mycentos centos:7
+sudo docker create -i -t --name mycentos centos:7
+
+# -d 옵션까지 추가하면 컨테이너 내부 진입하지 않아도 배시쉘은 실행시켜서 컨테이너 죽이지 않을 수 있음
+sudo docker create -i -t -d --name mycentos centos:7
 
 # 생성한 컨테이너 실행
 sudo docker start mycentos
