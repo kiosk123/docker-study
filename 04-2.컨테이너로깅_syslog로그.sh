@@ -1,3 +1,7 @@
+# rsyslog, syslog는 기본적인 로깅이므로 별도 UI 제공 x
+# 별도 UI를 활용하려면 https://loganalyzer.adiscon.com/, https://logentries.com/ 활용
+
+
 # syslog로 컨테이너를 로깅하도록 설정 - 컨테이너는 syslogtest를 출력 후 바로 종료
 sudo docker run -d --name syslog_container \
 --log-driver=syslog \
