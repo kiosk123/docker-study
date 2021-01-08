@@ -13,7 +13,7 @@ $ sudo docker save -o ubuntu.tar ubuntu:latest
 # 파일로 저장된 이미지 로드
 $ sudo docker load -i ubuntu.tar
 
-# 컨테이너를 파일로 저장 - 컨테이너 및 이미지에 대한 설정 정보를 저장하지는 않음
+# 컨테이너를 파일로 저장(레이어가 하나만 생기므로 용량 줄이기 가능) - 컨테이너 및 이미지에 대한 설정 정보를 저장하지는 않음 
 $ sudo docker export -o container.tar ubuntu
 
 # 파일로 저장된 컨테이너 정보를 이미지로 저장
