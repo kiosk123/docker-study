@@ -29,25 +29,25 @@ CMD apachectl -DFOREGROUND # DFOREGROUND - 아파치 웹서버 포어그라운�
 
 
 # 도커파일 빌드 docker build -t <생성할 이미지 이름> <도커파일 경로>
-$ sudo docker build -t mybuild:1.0 .
+sudo docker build -t mybuild:1.0 .
 
 # 도커파일 캐시를 사용하지 않고 이미지 빌드
-$ sudo docker build --no-cache -t mybuild:1.0 .
+sudo docker build --no-cache -t mybuild:1.0 .
 
 # 캐시로 사용할 이미지를 이용하여 빌드
-$ sudo docker build --cache-from ubuntu:14.04 -t mybuild:1.0 .
+sudo docker build --cache-from ubuntu:14.04 -t mybuild:1.0 .
 
 # 도커 컨테이너 생성
-$ sudo docker run -d -p mycontainer mybuild:1.0
+sudo docker run -d -p mycontainer mybuild:1.0
 
 # 생성된 컨테이너에 바인딩 된 포트 확인
-$ sudo docker port mycontainer
+sudo docker port mycontainer
 
 # 특정 라벨의 이미지 검색
-$ sudo docker images --filter "label=purpose=practice"
+sudo docker images --filter "label=purpose=practice"
 
 # 특정 라벨의 컨테이너 검색
-$ sudo docker ps --filter "label=purpose=practice"
+sudo docker ps --filter "label=purpose=practice"
 
 
 #---------------------------------------------------------------------------------------------------
@@ -78,7 +78,7 @@ COPY --from=0 /root/mainApp .
 CMD ["./mainApp"]
 
 # 이미지 빌드
-$ sudo docker build -t go_hello:1.0 .
+sudo docker build -t go_hello:1.0 .
 
 
 # 멀티 스테이지 이미지 빌드시 다음과 같은 방법도 가능하다
@@ -118,7 +118,7 @@ ARG my_arg_2=value2 # 기본값 지정
 RUN touch ${my_arg}/mytouch
 
 # 실행
-$ sudo docker build --build-arg my_arg=/home -t myarg:0.0 .
+sudo docker build --build-arg my_arg=/home -t myarg:0.0 .
 
 # 3. USER: 컨테이너에서 사용될 사용자 계정의 이름이나 UID이며 컨테이너의 명령어는 해당 사용자 권한으로 실행
 RUN groupadd -r author && useradd -r -g author hello

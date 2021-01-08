@@ -2,13 +2,13 @@
 # 도커 엔진 컨테이너 로그를 fluentd를 통해 수집해서 Mongodb로 저장
 
 # 몽고 디비 실행
-$ sudo docker run --name mongoDB -d \
+sudo docker run --name mongoDB -d \
 -p 27017:27017 \
 mongo
 
 # entrypoint.sh와 fluent.conf 파일을 호스트 컴퓨터에 다운로드
-$ curl https://raw.githubusercontent.com/fluent/fluentd-docker-image/master/v1.11/debian/fluent.conf > fluent.conf
-$ curl https://raw.githubusercontent.com/fluent/fluentd-docker-image/master/v1.11/debian/entrypoint.sh > entrypoint.sh
+curl https://raw.githubusercontent.com/fluent/fluentd-docker-image/master/v1.11/debian/fluent.conf > fluent.conf
+curl https://raw.githubusercontent.com/fluent/fluentd-docker-image/master/v1.11/debian/entrypoint.sh > entrypoint.sh
 
 # mongodb-plugin이 설치된 fluentd 이미지를 만들기 위한 도커 파일 작성
 # 파일명은 Dockerfile
@@ -29,7 +29,7 @@ RUN buildDeps="sudo make gcc g++ libc-dev" \
  && rm -rf /tmp/* /var/tmp/* /usr/lib/ruby/gems/*/cache/*.gem
 
 # Dockerfile을 바탕으로 이미지를 생성
-$ sudo docker build --tag myfluentd:mongo .
+sudo docker build --tag myfluentd:mongo .
 
 # fluent.conf 파일 작성
 # access라는 컬렉션에 로그저장, 
@@ -53,7 +53,7 @@ $ sudo docker build --tag myfluentd:mongo .
 </match>
 
 # fluentd 실행 - fluent.conf 파일 컨테이너에 마운트
-$ sudo docker run -d -p 24224:24224 \
+sudo docker run -d -p 24224:24224 \
 -p 24224:24224/udp \
 --name fluentd \
 -v /home/user/fluent.conf:/fluentd/etc/fluent.conf \
@@ -62,7 +62,7 @@ myfluentd:mongo
 
 # 도커 서버에서 로그를 수집할 컨테이너 생성
 # 그리고 브라우저로 웹서버 접속한 후 로그발생시킨다
-$ sudo docker run -p 80:80 -d \
+sudo docker run -p 80:80 -d \
 --log-driver=fluentd \
 --log-opt fluentd-address=192.168.0.164:24224 \
 --log-opt tag=docker.nginx.webserver \
@@ -70,7 +70,7 @@ $ sudo docker run -p 80:80 -d \
 nginx
 
 # 몽고디비 컨테이너 접속
-$ sudo docker exec -it mongoDB /bin/bash 
+sudo docker exec -it mongoDB /bin/bash 
 
 > show dbs
 admin   0.000GB
