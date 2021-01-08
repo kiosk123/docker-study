@@ -50,3 +50,5 @@ sudo docker version
 # 보안적용에 사용될 파일 : ca.pem, server-cert.pem, server-key.pem, cert.pem, key.pem
 # 클라이언트에서 도커 데몬에 접근할때 필요한 파일 : ca.pem, cert.pem, key.pem
 
+# 1. 서버 측 파일 생성
+
