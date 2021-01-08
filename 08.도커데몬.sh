@@ -6,3 +6,8 @@ sudo service docker stop
 sudo systemctl start docker
 sudo systemctl enable docker
 sudo systemctl stop docker
+
+# 서비스로 실행이 아닌 명령어로 도커 데몬 실행 --insecure-registry 옵션 추가.
+# dhqtusdms 
+sudo dockerd --insecure-registry=192.168.0.164:5000
+

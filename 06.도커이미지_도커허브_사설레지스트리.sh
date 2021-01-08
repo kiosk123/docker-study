@@ -52,6 +52,7 @@ sudo docker tag myubuntu:1.0 192.168.0.164:5000/myubuntu:1.0
 # /etc/default/docker 파일 (없으면 생성) 수정 하고 다음 내용 입력
 DOCKER_OPTS="--insecure-registry=192.168.0.164:5000"
 
+# 우분투 라즈비안 기준 /lib/systemd/system/docker.service
 # CentOS7 기준 /usr/lib/systemd/system/docker.service 파일을 수정하고
 # EnvironmentFile과 $DOCKER_OPTS 추가
 
