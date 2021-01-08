@@ -11,6 +11,9 @@ sudo systemctl stop docker
 # 일반적으로 /etc/default/docker의 DOCKER_OPTS에 옵션을 설정 후 사용 - 06.도커이미지_도커허브_사설레지스트리.sh 참고 
 sudo dockerd -H tcp://0.0.0.0:2375 --insecure-registry=192.168.0.164:5000 --tls=false
 
+# DOCKER_OPTS에 설정할 경우
+DOCKER_OPS="-H tcp://0.0.0.0:2375 --insecure-registry=192.168.0.164:5000 --tls=false"
+
 #---------------------------------------------------------------------------------------------------
 # 도커 데몬 제어
 
@@ -30,3 +33,5 @@ sudo dockerd -H unix:///var/run/docker/sock -H tcp://0.0.0.0:2375
 # 4. 원격으로에서 Remote API 활성화된 도커 데몬에 명령어 전달
 sudo docker -H tcp://192.168.0.164:2375 
 sudo docker -H tcp://192.168.0.164:2375 images # 원격으로 도커데몬의 이미지 목록 확인
+curl 192.168.0.164:2375/version --silent | python -m json.tool # curl을 이용하여 도커 버전 확인
+
