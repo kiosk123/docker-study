@@ -1,10 +1,17 @@
-# os 비트 확인
+# 도커 설치
+
+## os 비트 확인
+```
 getconf LONG_BIT
+```
 
-# 커널정보확인
+## 커널정보확인
+```
 uname -r
+```
 
-# 이전 버전 도커 삭제
+## 이전 버전 도커 삭제
+```
 yum remove docker \
 	     docker-client \
 	     docker-client-latest \
@@ -13,23 +20,33 @@ yum remove docker \
 	     docker-latest-logrotate \
 	     docker-logrotate \
 	     docker-engine
+```
 
-# yum util 설치
+## yum util 설치
+```
 yum install -y yum-utils
+```
 
-# docker 저장소 등록
+## docker 저장소 등록
+```
 yum-config-manager \
     --add-repo \
     https://download.docker.com/linux/centos/docker-ce.repo
+```
 
-# docker 설치
+## docker 설치
+```
 yum install docker-ce docker-ce-cli containerd.io
+```
 
-# docker 시작
+## docker 시작
+```
 systemctl start docker
 systemctl enable docker
+```
 
-
-# docker 설치 확인
+## docker 설치 확인
+```
 docker info
+```
  

@@ -1,3 +1,4 @@
+
 # 도커 이미지 네이밍 컨벤션
 # 저장소이름/이미지이름:이미지버전, 이미지이름:이미지(이름)버전
 # dockerrepo/custom:0.01, custom:latest
@@ -38,6 +39,8 @@ docker ps
 
 # 실행 중인 컨테이너 전체 목록
 docker ps -a
+
+# 컨테이너 제어
 
 # 컨테이너 정보 확인
 docker inspect mycentos
