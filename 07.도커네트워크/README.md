@@ -148,7 +148,7 @@ MacVLAN 사용시 컨테이너는 물리 네트워크상에서 가상의 맥 주
 **다만 MacVLAN을 사용하는 컨테이너는 기본적으로 호스트와 통신이 불가능하고**  
 할당 받은 IP의 네트워크 장비 IP대역을 사용하는 다른 서버 및 컨테이너들과 통신이 가능
 
-## MacVLAN 네트워크 생성
+##### MacVLAN 네트워크 생성
 **-d** 드라이버로 MacVLAN 사용 명시  
   
 **--subnet** 컨테이너가 사용할 네트워크 정보  
@@ -172,7 +172,7 @@ docker network create \
 -o parent=eth0 my_macvlan
 ```
 
-# macvlan을 사용하는 컨테이너 생성
+##### macvlan을 사용하는 컨테이너 생성
 
 ```
 docker run -it --name c1 --hostname c1 \
