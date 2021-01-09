@@ -1,6 +1,7 @@
 # 13. 도커파일 Dockerfile
 
-## .gitgnore와 마찬가지로 도커도 이미지 생성에 포함하지 않을 파일을 .dockerignore를 이용해 설정가능하다
+## .dockerignore를 이용하여 이미지에 포함되지 않을 파일 설정
+.gitgnore와 마찬가지로 도커도 이미지 생성에 포함하지 않을 파일을 .dockerignore를 이용해 설정가능하다
 
 ```
 vi .dockerignore
