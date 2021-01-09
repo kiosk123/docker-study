@@ -3,7 +3,7 @@
 
 
 # syslog로 컨테이너를 로깅하도록 설정 - 컨테이너는 syslogtest를 출력 후 바로 종료
-sudo docker run -d --name syslog_container \
+docker run -d --name syslog_container \
 --log-driver=syslog \
 ubuntu:14.04 \
 echo syslogtest
@@ -16,7 +16,7 @@ tail /var/log/syslog
 # 서버의 rsyslog 컨테이너에 로그를 저장한다.- 
 
 # rsyslog 컨테이너를 생성
-sudo docker run -i -t \
+docker run -i -t \
 -h rsyslog \
 --name rsyslog_server \
 -p 514:514 -p 514:514/udp \
@@ -40,7 +40,7 @@ service rsyslog restart
 # 그리고 컨테이너 로그를 기록하기 위한 간단한 echo 명령을 실행한다.
 # 여기서는 tcp로 방법으로 활성화 했지만 rsyslog.conf에 udp설정을 해서
 # udp로도 사용할 수도 있다.
-sudo docker run -i -t \
+docker run -i -t \
 --log-driver=syslog \
 --log-opt syslog-address=tcp://192.168.0.164:514 \
 --log-opt tag="mylog" \
@@ -49,7 +49,7 @@ ubuntu:14.04
 echo test
 
 # 다시 rsyslog 컨테이너에 접속해 /var/log/syslog에 로그가 기록되었는지 확인한다.
-sudo docker attach rsyslog_server
+docker attach rsyslog_server
 
 tail /var/log/syslog
 
@@ -57,7 +57,7 @@ tail /var/log/syslog
 # 로그를 생성하는 주체(클라이언트)에 따라 로그를 다르게 저장하는 것으로
 # 여러 애플리케이션에서 수집되는 로그를 분류할 수 있다.
 # 기본적으로 daemon으로 설정 되어있지만 kern, user, mail 등 다른 facility도 사용가능하다
-sudo docker run -i -t \
+docker run -i -t \
 --log-driver=syslog \
 --log-opt syslog-address=tcp://192.168.0.164:514 \
 --log-opt tag="maillog" \
