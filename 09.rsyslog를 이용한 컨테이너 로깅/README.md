@@ -3,7 +3,7 @@
 rsyslog, syslog는 리눅스에서 기본적으로 제공되는 로깅이므로 별도 UI 제공 하지 않음  
 별도 UI를 활용하려면 **https://loganalyzer.adiscon.com/, https://logentries.com/** 활용한다.
 
-## syslog로 컨테이너를 로깅하도록 설정
+## 9-1. syslog로 컨테이너를 로깅하도록 설정
 --log-driver=syslog를 설정한다.
 
 ```
@@ -21,7 +21,7 @@ echo syslogtest
 tail /var/log/messages
 ```
 
-## rsyslog를 이용한 로깅
+## 9-2. rsyslog를 이용한 로깅
 syslog를 원격에 저장하는 방법의 하나인 rsyslog를 써서 중앙 컨테이너로 로그를 저장할 수 있다.  
 rsyslog 서비스가 시작되도록 설정된 컨테이너를 구동하고, 클라이언트 호스트에서 컨테이너를 생성해 서버의 rsyslog 컨테이너에 로그를 저장한다.- 
 
