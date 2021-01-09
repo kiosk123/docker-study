@@ -49,7 +49,7 @@ dockerd -H tcp://0.0.0.0:2375
 dockerd -H unix:///var/run/docker/sock -H tcp://0.0.0.0:2375
 ```
 
-### 원격으로에서 Remote API 활성화된 도커 데몬에 명령어 전달
+### 원격에서 Remote API 활성화된 도커 데몬에 명령어 전달
 
 ```
 docker -H tcp://192.168.0.164:2375 
