@@ -25,7 +25,7 @@ tail /var/log/messages
 syslog를 원격에 저장하는 방법의 하나인 rsyslog를 써서 중앙 컨테이너로 로그를 저장할 수 있다.  
 rsyslog 서비스가 시작되도록 설정된 컨테이너를 구동하고, 클라이언트 호스트에서 컨테이너를 생성해 서버의 rsyslog 컨테이너에 로그를 저장한다.- 
 
-### rsyslog 컨테이너를 생성
+#### rsyslog 컨테이너를 생성
 ```
 docker run -i -t \
 -h rsyslog \
@@ -34,7 +34,7 @@ docker run -i -t \
 ubuntu:14.04
 ```
 
-### 컨테이너 내부의 rsyslog.conf 파일 열어서 syslog 서버 구동시키는 항목의 주석 제거
+#### 컨테이너 내부의 rsyslog.conf 파일 열어서 syslog 서버 구동시키는 항목의 주석 제거
 ```
 vi /etc/rsyslog.conf
 
@@ -47,12 +47,12 @@ $ModLoad imtcp
 $InputTCPServerRun 514
 ```
 
-### 컨테이너의 rsyslog 서비스 재시작
+#### 컨테이너의 rsyslog 서비스 재시작
 ```
 service rsyslog restart
 ```
 
-### 클라이언트 호스트에서 컨테이너 생성
+#### 클라이언트 호스트에서 컨테이너 생성
 컨테이너 로그를 기록하기 위한 간단한 echo 명령을 실행한다.  
 여기서는 tcp로 방법으로 활성화 했지만 rsyslog.conf에 udp설정을 해서 udp로도 사용할 수도 있다.  
 **--log-opt tag** 로그파일에서 어디서 발생된 로그인지 알기 쉽도록 붙는 태그이다
@@ -67,7 +67,7 @@ ubuntu:14.04
 echo test
 ```
 
-### 다시 rsyslog 컨테이너에 접속해 /var/log/syslog에 로그가 기록되었는지 확인한다.
+#### 다시 rsyslog 컨테이너에 접속해 /var/log/syslog에 로그가 기록되었는지 확인한다.
 
 ```
 docker attach rsyslog_server
@@ -75,7 +75,7 @@ docker attach rsyslog_server
 tail /var/log/syslog
 ```
 
-### --log-opt로 syslog-facility를 쓰면 로그가 저장될 파일을 설정할 수 있다.
+#### --log-opt로 syslog-facility를 쓰면 로그가 저장될 파일을 설정할 수 있다.
 로그를 생성하는 주체(클라이언트)에 따라 로그를 다르게 저장하는 것으로 여러 애플리케이션에서 수집되는 로그를 분류할 수 있다.  
 기본적으로 daemon으로 설정 되어있지만 kern, user, mail 등 다른 facility도 사용가능하다  
   
