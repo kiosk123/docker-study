@@ -6,7 +6,7 @@
 
 서비스는 내 컨테이너들의 이미지를 일괄적으로 업데이터해야 할 때 컨테이너들의 이미지를 순서대로 변경해 서비스 자체가 다운되는 시간 없이 컨테이너의 업데이트를 진행할 수 있다.  
 
-### 서비스 생성
+## 서비스 생성
 서비스를 제어하는 도커 명령어는 전부 매니저 노드에서만 사용 가능하다.  
 서비스 내의 컨테이너는 detached 모드로 사용해 동작할 수 있는 이미지로 사용해야한다. 그렇치 않으면 컨테이너 내부 프로세스가 없기 때문에 컨테이너가 정지될 것이고,  
 스웜 매니저는 서비스의 컨테이너에 장애가 생긴 것으로 판단해 컨테이너를 계속 반복해서 생성할 것이다.
@@ -28,7 +28,7 @@ docker service create --with-registry-auth \
 ...
 ```
 
-### 생성된 서비스 목록 확인
+## 생성된 서비스 목록 확인
 
 ```
 docker service ls
@@ -40,7 +40,7 @@ docker service ls
 docker service ps r7aaaalfp9ga
 ```
 
-### 생성된 서비스 삭제
+## 생성된 서비스 삭제
 ```
 docker service rm dreamy_jemison
 ```
@@ -142,4 +142,64 @@ docker service rollback myweb2
 
 ```
 docker service inspect --pretty myweb3
+```
+
+### 서비스 컨테이너에 설정 정보 전달하기
+스웜모드는 secret과 config기능을 제공한다. secret은 비밀번호나 ssh키, 인증서 키와 같이  
+보안에 민감한 데이터를 전송하기 위해서, config는 nginx나 레지스트리 설정 파일과 같이 암호화할 필요가 없는 설정값들에 사용된다.  
+
+#### secret 생성
+my\_mysql_password 라는 이름의 secret에 123123을 저장한다.  
+
+```
+echo 123123 | docker secret create my_mysql_password -
+```
+
+#### 생성된 secret 조회
+생성된 secret을 조회해도 실제 값은 확인 할 수 없다. secret 값은 매니저 노드 간에 암호화된 상태로 저장된다. 
+때문에 서비스 컨테이너가 삭제될 경우 secret도 함께 삭제되는 휘발성을 띄게 된다.
+
+```
+docker secret ls
+docker secret inspect my_mysql_password
+```
+
+### secret을 이용해 컨테이너 생성
+--secret 옵션을 이용해 MYSQL 사용자 비번을 컨테이너 내부에 마운트 할 수 있다.  
+source에 secret이름을 입력하고, target에는 컨테이너 내부에서 보여질 secret이름을 입력한다.
+
+--secret 옵션을 통해 컨테이너로 공유된 값은 기본적으로 컨테이너 내부의 /run/secrets/디렉터리에 마운트 된다.  
+아래 예시에서는 target의 값이 각각 mysql\_root_password, mysql\_password로 설정됐기 때문에  
+/run/secrets 디렉터리에 해당 이름의 파일이 각각 존재하게 된다.  
+
+물론 target=/home/mysql\_root_password 절대경로 형태로 넘겨주는 것도 가능하다.
+
+```
+docker service create \
+--name mysql \
+--replicas 1 \
+--secret source=my_mysql_password,target=mysql_root_password \
+--secret source=my_mysql_password,target=mysql_password \
+-e MYSQL_ROOT_PASSWORD_FILE="/run/secrets/mysql_root_password" \
+-e MYSQL_PASSWORD_FILE="/run/secrets/mysql_password" \
+-e MYSQL_DATABASE="wordpress" \
+mysql:5.7
+
+```
+
+### config 생성
+config은 secret과 사용방법이 동일하다.  
+다음은 레지스트리의 설정 파일을 registry-config이라는 이름의 config으로 저장한다
+
+```
+docker config create registry-config ./config.yml
+```
+
+### config을 이용한 컨테이너 생성
+
+```
+docker service create --name yml_registry \
+-p 5000:5000 \
+--config source=registry-config,target=/etc/docker/registry/config.yml \
+registry:2.6
 ```
