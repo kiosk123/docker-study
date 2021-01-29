@@ -3,7 +3,7 @@
 ## .dockerignore를 이용하여 이미지에 포함되지 않을 파일 설정
 .gitgnore와 마찬가지로 도커도 이미지 생성에 포함하지 않을 파일을 .dockerignore를 이용해 설정가능하다
 
-```
+```bash
 vi .dockerignore
 ```
 -----------------
@@ -21,7 +21,7 @@ vi .dockerignore
 - EXPOSE: 이미지에서 노출할 포트 지정
 - CMD: 컨테이너가 시작될 때마다 실행할 명령어 Dockerfile에서 딱 한번만 지정해서 사용가능
 
-```
+```dockerfile
 FROM ubuntu:14.04
 MAINTAINER maker
 LABEL "puporse"="practice"
@@ -84,7 +84,7 @@ docker ps --filter "label=purpose=practice"
 하나의 도커파일안에 여러개의 FROM 이미지를 정의함으로서 빌드 완료시 최정적으로 생성될 이미지를 줄이는 방법  
 
 ### 테스트를 위한 main.go 작성
-```
+```go
 package main
 import "fmt"
 func main() {
@@ -97,7 +97,7 @@ func main() {
 첫번째 FROM 이미지에서 빌드한 /root/mainApp 파일을 의미  
 두번째 FROM에 명시된 이미지  alpine:latest에 복사
 
-```
+```dockerfile
 FROM golang
 ADD main.go /root
 WORKDIR /root
@@ -118,7 +118,7 @@ docker build -t go_hello:1.0 .
 
 ### 멀티 스테이지 이미지 빌드시 다음과 같은 방법도 가능하다
 
-```
+```dockerfile
 FROM golang
 ADD main.go /root
 WORKDIR /root
@@ -142,7 +142,7 @@ COPY --from=1 /root/mainApp2 .
 ${test:-/home} :test란 이름의 환경변수 값이 설정되지 않으면 이 환경변수의 값을 /home을 사용  
 ${test:+/home} :test란 이름의 환경변수 값이 설정되어 있으면 이 환경변수의 값을 /home을 사용하고 없으면 빈문자열로 설정  
 
-```
+```dockerfile
 FROM ubuntu:14.04
 ENV test /home # 환경변수명 : test, 값 : /home
 WORKDIR $test
@@ -152,13 +152,13 @@ RUN touch ${test:-/home}/${test:-/home}
 ### VOLUME 빌드된 이미지로 컨테이너를 생성했을 때 호스트와 공유할 컨테이너 내부의 디렉터리 설정
 다음의 예시는 컨테이너 내부의 /home/volume 디렉터리를 호스트와 공유하도록 설정  
 
-```
+```dockerfile
 VOLUME /home/volume # ["/home/dir", "/home/volume"] 형식으로 여러개 선언 가능
 ```
 
 ### ARG 빌드 명령어를 실행할 때 추가로 입력을 받아 Dockerfile 내에서 사용될 변수의 값을 설정
 
-```
+```dockerfile
 FROM ubuntu:14.04
 ARG my_arg
 ARG my_arg_2=value2 # 기본값 지정
@@ -170,7 +170,7 @@ docker build --build-arg my_arg=/home -t myarg:0.0 .
 
 ### USER 컨테이너에서 사용될 사용자 계정의 이름이나 UID이며 컨테이너의 명령어는 해당 사용자 권한으로 실행
 
-```
+```dockerfile
 RUN groupadd -r author && useradd -r -g author hello
 USER hello
 ```
@@ -179,7 +179,7 @@ USER hello
 빌드된 이미지를 기반으로 하는 이미지가 Dockerfile로 생성될 때  실행할 명령어를 추가한다.  
 다른 도커파일에서 이 도커파일로 생성된 이미지를 베이스로 하여 생성될때 실행되는 명령어를 지정
 
-```
+```dockerfile
 FROM ubuntu:14.04
 RUN echo "this is onbuild test"
 ONBUILD RUN echo "onbuild!" >. /onbuild_file
@@ -189,7 +189,7 @@ ONBUILD RUN echo "onbuild!" >. /onbuild_file
 컨테이너가 정지될 때 사용될 시스템 콜의 종류를 지정.  
 아무 것도 설정하지 않으면 기본적으로 SIGTERM 
 
-```
+```dockerfile
 FROM ubuntu:14.04
 STOPSIGNAL SIGKILL
 ```
@@ -198,7 +198,7 @@ STOPSIGNAL SIGKILL
 이미지로 부터 생성된 컨테이너에서 동작하는 애플리케이션의 상태를 체크하도록 설정  
 컨테이너 내부에서 동작 중인 애플리케이션의 프로세스가 종료되지는 않았으나   애플리케이션이 동작하고 있지 않는 상태를 방지한다.  
 
-```
+```dockerfile
 # 다음은 1분마다 curl -f를 사용해 nginx 애플리케이션의 상태를 체크하며 3초 이상이 소요되면 이를 한번의 실패로 간주한다
 # 3번이상 타임아웃이 발생하면 해당 컨테이너는 unhealthy 상태가 된다
 # 단 HEALTHCHECK에서 사용되는 명령어가 curl이므로 curl을 먼저 설치해야한다
@@ -212,7 +212,7 @@ HEALTHCHECK --interval=1m --timeout=3s --retiries=3 CMD curl -f http://localhost
 
 ### SHELL 기본 쉘 지정
 
-```
+```dockerfile
 SHELL ["/bin/bash"]
 ```
 
@@ -222,7 +222,7 @@ COPY는 로컬 파일만 이미지에 추가가능 ADD는 외부 url이나 tar�
 ### ENTRYPOINT
 CMD랑 비슷하지만 ENTRYPOINT와 CMD가 둘다 있을 때 CMD는 ENTRYPOINT의 파라미터(인자)로 사용됨
 
-```
+```dockerfile
 ADD entrypoint.sh /entrypoint.sh
 RUN chmod +x entrypoint.sh
 ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]
