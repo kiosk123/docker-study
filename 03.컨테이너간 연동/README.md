@@ -19,7 +19,7 @@ docker run -d \
 
 ## 워드 프레스 컨테이너 실행
 - --link(현재 deprecated)는 컨테이너를 IP가 아닌 이름으로 접근하여 연결
-    - 여기서는 wodpressdb를 mysql호스명을 사용하여 접근함
+    - 여기서는 wodpressdb를 mysql호스트명을 사용하여 접근함
     - --link 옵션으로 인해서 컨테이너의 실행순서의 의존성도 생김
 
 ```
